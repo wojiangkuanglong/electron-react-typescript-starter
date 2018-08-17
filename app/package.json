@@ -1,0 +1,16 @@
+{
+  "name": "electron-react-typescript-starter",
+  "productName": "HelloWorld",
+  "version": "0.1.0",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "ChengZhenghao",
+    "email": "chengzhenghao6@gmail.com"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "npm run electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}

@@ -1,0 +1,172 @@
+{
+  "name": "electron-react-typescript-starter",
+  "productName": "HelloWorld",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
+    "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
+    "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
+    "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
+    "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-renderer-dev",
+    "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
+    "format": "prettier --write 'app/**/*.{js,jsx,scss,css,md,ts,tsx}'",
+    "package": "npm run build && build --publish never",
+    "package-all": "npm run build && build -mwl",
+    "package-linux": "npm run build && build --linux",
+    "package-win": "npm run build && build --win --x64",
+    "postinstall": "node -r babel-register internals/scripts/CheckNativeDep.js && npm run build-dll && electron-builder install-app-deps && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
+    "precommit": "lint-staged",
+    "prestart": "npm run build",
+    "start": "cross-env NODE_ENV=production electron ./app/",
+    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev.js",
+    "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js"
+  },
+  "browserslist": "electron 1.6",
+  "lint-staged": {
+    "*.{scss,css,md,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "build": {
+    "productName": "HelloWorld",
+    "appId": "org.develar.HelloWorld",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "app.html",
+      "main.prod.js",
+      "main.prod.js.map",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Development"
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ChengZhengHao/electron-react-typescript-starter.git"
+  },
+  "author": {
+    "name": "ChengZhenghao",
+    "email": "chengzhenghao6@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "starter",
+    "react",
+    "sass",
+    "webpack",
+    "hot",
+    "reload"
+  ],
+  "devDependencies": {
+    "@types/node": "^10.5.2",
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-router": "^4.0.28",
+    "@types/react-router-dom": "^4.2.7",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.0.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chalk": "^2.4.1",
+    "concurrently": "^3.5.1",
+    "cross-env": "^5.1.6",
+    "cross-spawn": "^6.0.5",
+    "css-loader": "^0.28.11",
+    "detect-port": "^1.2.3",
+    "electron": "^2.0.2",
+    "electron-builder": "^20.14.7",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^1.7.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
+    "express": "^4.16.3",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "fbjs-scripts": "^0.8.3",
+    "file-loader": "^1.1.11",
+    "husky": "^0.14.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.0.0",
+    "lint-staged": "^7.1.2",
+    "minimist": "^1.2.0",
+    "node-sass": "^4.9.0",
+    "npm-logical-tree": "^1.2.1",
+    "prettier": "^1.12.1",
+    "react-test-renderer": "^16.4.0",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^7.0.1",
+    "sinon": "^5.0.10",
+    "spectron": "^3.8.0",
+    "style-loader": "^0.21.0",
+    "ts-import-plugin": "^1.5.4",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "typescript": "^2.9.2",
+    "uglifyjs-webpack-plugin": "1.2.5",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.8.3",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
+  },
+  "dependencies": {
+    "antd": "^3.7.0",
+    "axios": "^0.18.0",
+    "devtron": "^1.4.0",
+    "electron-debug": "^1.5.0",
+    "font-awesome": "^4.7.0",
+    "history": "^4.7.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-hot-loader": "^4.2.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "source-map-support": "^0.5.6"
+  },
+  "devEngines": {
+    "node": ">=8.x",
+    "npm": ">=6.x",
+    "yarn": ">=0.21.3"
+  }
+}
